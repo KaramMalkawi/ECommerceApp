@@ -67,26 +67,30 @@ public class Main {
         System.out.println("Enter the product number to add to cart:");
         String productNumber = scanner.next();
         Product selectedProduct = productDatabase.get(productNumber);
-
+    
         if (selectedProduct != null) {
             System.out.println("Enter the quantity:");
             int quantity = scanner.nextInt();
-
+    
             if (quantity > 0) {
                 if (currentUser == null) {
-                    System.out.println("Please login first.\n");
+                    System.out.println("Please login first.");
                 } else {
-                    currentUser.addOrder(new Order(new ShoppingCart(), ""));
+                    if (currentUser.getOrders().isEmpty()) {
+                        currentUser.addOrder(new Order(new ShoppingCart(), ""));
+                    }
+    
                     currentUser.getOrders().get(currentUser.getOrders().size() - 1).getCart().addToCart(selectedProduct, quantity);
-                    System.out.println("Product added to cart successfully.\n");
+                    System.out.println("Product added to cart successfully.");
                 }
             } else {
-                System.out.println("Invalid quantity.\n");
+                System.out.println("Invalid quantity.");
             }
         } else {
-            System.out.println("Invalid product number.\n");
+            System.out.println("Invalid product number.");
         }
     }
+
 
     private static void viewCart() {
         if (currentUser != null && !currentUser.getOrders().isEmpty()) {
